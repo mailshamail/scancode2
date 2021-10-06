@@ -1,5 +1,7 @@
 package Form;
 
+import Json.ReadJson;
+import Json.WriteJson;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import mailshamail.ru.R;
@@ -10,7 +12,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 
 public class Form extends AppCompatActivity {
 
@@ -19,11 +25,9 @@ public class Form extends AppCompatActivity {
 
     private int port, time;
     public int indextForm = 1;
-
-
+    public int ser = 0;
 
     private EditText[] field = new EditText[8];
-    private EditText form, serial;
 
     SharedPreferences settings;
 
@@ -35,11 +39,11 @@ public class Form extends AppCompatActivity {
 
         getParam();
 
-        form = findViewById(R.id.editTextForm);
+        EditText form = findViewById(R.id.editTextForm);
         form.setText(String.valueOf(indextForm));
 
-        serial = findViewById(R.id.editTextSerial);
-
+        EditText serial = findViewById(R.id.editTextSerial);
+        ser = Integer.parseInt(serial.getText().toString());
 
         int index = 0;
         for(int i = 0; i < 8; i++){
