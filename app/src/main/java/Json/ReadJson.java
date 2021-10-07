@@ -17,11 +17,9 @@ public class ReadJson{
 
     public ReadJson(){}
 
-    public void read(Context context) throws IOException {
+    public void read(Context context) throws IOException {}
 
-    }
-
-    private static String readText(Context context, int resId) throws IOException {
+    public static String readText(Context context, int resId) throws IOException {
         InputStream inputStream = context.getResources().openRawResource(resId);
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder sb = new StringBuilder();
@@ -33,4 +31,6 @@ public class ReadJson{
         }
         return sb.toString();
     }
+
+
 }
