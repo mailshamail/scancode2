@@ -34,7 +34,7 @@ public class Form extends AppCompatActivity {
     final String Prefences = "setting";
 
     private int port, time;
-    public int ser = 1;
+    public int ser;
     public int formID = 1;
 
     public int[] indextForm = new int[formID];
@@ -86,11 +86,17 @@ public class Form extends AppCompatActivity {
                 public void beforeTextChanged(CharSequence charSequence, int i3, int i1, int i2) {
 
                     fillField(fieldString);
-                    dialog.show();
+                   // dialog.show();
 
                     //try {
-                    //    WriteJson.jsonObject(sw,Form.this);
-                    //    System.out.println(output.toString());
+                    //    WriteJson.write(sw,Form.this);
+                    //    try {
+                    //        ReadJson.read(Form.this);
+                    //        System.out.println("Form: " + ReadJson.form + "\n" + "Qwe: " + ReadJson.query + "\n" + "fi:" + String.valueOf(ReadJson.Field));
+                    //    } catch (JSONException e) {
+                    //        e.printStackTrace();
+                    //    }
+                    //    System.out.println(sw.toString());
                     //} catch (IOException e) {
                     //    e.printStackTrace();
                     //}
@@ -117,12 +123,6 @@ public class Form extends AppCompatActivity {
                 public void afterTextChanged(Editable editable) {}
             });
         }
-
-       // try {
-       //     json();
-       // } catch (IOException | JSONException e) {
-       //     e.printStackTrace();
-       // }
 
         System.out.println("ip: " + ip);
         System.out.println("port " + port);
@@ -159,5 +159,9 @@ public class Form extends AppCompatActivity {
 
     public int getForm() {
         return formID;
+    }
+
+    public String[] getField() {
+        return fieldString;
     }
 }

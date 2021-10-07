@@ -30,17 +30,18 @@ public class WriteJson {
 
     public WriteJson() {}
 
-    public static void jsonObject(Writer writer, Form form) throws IOException {
+    public static void write(Writer writer, Form form) throws IOException {
         JsonWriter jsonWriter = new JsonWriter(writer);
         jsonWriter.beginObject();
 
-        jsonWriter.name("Form").beginArray();
-        for(int i = 0; i < form.getForm(); i++) {
-            jsonWriter.value(form.getForm());
+        jsonWriter.name("form").value(form.getForm());
+        jsonWriter.name("query").value(form.getSerial());
+
+        jsonWriter.name("fields").beginArray();
+        for(String s : form.getField()) {
+            jsonWriter.value(s);
         }
         jsonWriter.endArray();
-
-        //jsonWriter.name("query").value(form.getSerial());
 
     }
 }
