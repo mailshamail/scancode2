@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,16 +23,12 @@ import Form.Form;
 
 public class WriteJson {
 
-    /*public String result = "[{\"forms\":" +
-            "\"formID\"" +
-            "{" + "\"query\":" +"{" + "\"serial\"" + "\"fields\":" + "[]" +
-            "}" + "}" +"}" +
-            "]";*/
+    public static JsonWriter jsonWriter;
 
     public WriteJson() {}
 
     public static void write(Writer writer, Form form) throws IOException {
-        JsonWriter jsonWriter = new JsonWriter(writer);
+        jsonWriter = new JsonWriter(writer);
         jsonWriter.beginObject();
 
         jsonWriter.name("form").value(form.getForm());
@@ -42,6 +39,9 @@ public class WriteJson {
             jsonWriter.value(s);
         }
         jsonWriter.endArray();
+    }
 
+    public static JsonWriter getJsonWriter(){
+        return jsonWriter;
     }
 }

@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Scancode2">
+        android:theme="@style/Theme.Scancode2"
+        android:usesCleartextTraffic="true">
         <activity
             android:name="Form.Form"
             android:exported="true" />

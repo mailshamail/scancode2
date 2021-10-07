@@ -1,13 +1,11 @@
 package Form;
 
-import Json.ReadJson;
-import Json.WriteJson;
+import Connect.Connection;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import mailshamail.ru.R;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -22,11 +20,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 
 public class Form extends AppCompatActivity {
 
@@ -37,7 +30,6 @@ public class Form extends AppCompatActivity {
     public int ser;
     public int formID = 1;
 
-    public int[] indextForm = new int[formID];
     public String[] fieldString = new String[8];
 
     private EditText[] field = new EditText[8];
@@ -45,6 +37,8 @@ public class Form extends AppCompatActivity {
 
     SharedPreferences settings;
     AlertDialog dialog;
+
+    Connection connection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +49,7 @@ public class Form extends AppCompatActivity {
         getParam();
 
         EditText form = findViewById(R.id.editTextForm);
-        form.setText(String.valueOf(indextForm));
+        form.setText(String.valueOf(formID));
 
         serial = findViewById(R.id.editTextSerial);
         if (!serial.getText().toString().equals("")){
@@ -78,6 +72,7 @@ public class Form extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {}
                 }).create();
 
+        connection = new Connection(this, getIp(), getTime());
 
         StringWriter sw = new StringWriter();
         for(int i = 0; i < 8; i++) {
@@ -113,7 +108,14 @@ public class Form extends AppCompatActivity {
                             editText.setText("");
                             editText.addTextChangedListener(this);
                         }
+                    }
 
+                    try {
+
+                        connection.OpenConnection();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
 
@@ -132,7 +134,6 @@ public class Form extends AppCompatActivity {
     private void getParam(){
 
         settings = getSharedPreferences(Prefences, Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = settings.edit();
         final String ip = settings.getString("ip", "");
         final int port = settings.getInt("port", 20);
         final int time = settings.getInt("time", 20);
@@ -163,5 +164,15 @@ public class Form extends AppCompatActivity {
 
     public String[] getField() {
         return fieldString;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+    public int getPort() {
+        return port;
+    }
+    public int getTime() {
+        return time;
     }
 }
