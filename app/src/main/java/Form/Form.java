@@ -81,7 +81,7 @@ public class Form extends AppCompatActivity {
                 public void beforeTextChanged(CharSequence charSequence, int i3, int i1, int i2) {
 
                     fillField(fieldString);
-                   // dialog.show();
+                    dialog.show();
 
                     //try {
                     //    WriteJson.write(sw,Form.this);

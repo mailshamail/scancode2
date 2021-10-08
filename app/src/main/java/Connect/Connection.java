@@ -6,8 +6,10 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -39,7 +41,7 @@ public class Connection {
             @Override
             public void run() {
                 try  {
-                    URL url = new URL("http://"+host);
+                    URL url = new URL("http://"+host + "/insert.php?action=insert");
                     connection = (HttpURLConnection) url.openConnection();
                     System.out.println("HOST: " + url.getHost());
                     System.out.println("PORT: " + url.getPort());
@@ -47,12 +49,24 @@ public class Connection {
                     connection.setReadTimeout(10000);
                     connection.setConnectTimeout(15000);
                     connection.setRequestMethod("POST");
-                    connection.setRequestProperty("Content-type", "application/json");
+                    connection.setRequestProperty("Content-Type", "application/json");
+                    connection.setDoInput(true);
+                    connection.setDoOutput(true);
                     connection.connect();
+
+                    //try {
+                    //    InputStream in = new BufferedInputStream(connection.getInputStream());
+                    //    //readStream(in);
+                    //} finally {
+                    //    CloseConnection();
+                    //}
+
+                    System.out.println("CODE: " + connection.getResponseCode());
 
                     //connection.setReadTimeout(time * 120);
                     isConnection = connection.getResponseCode() == HttpURLConnection.HTTP_OK;
 
+                    CloseConnection();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -60,8 +74,6 @@ public class Connection {
             }
         });
         thread.start();
-
-
     }
 
     public void CloseConnection() throws IOException{
