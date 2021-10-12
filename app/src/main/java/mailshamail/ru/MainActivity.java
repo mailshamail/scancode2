@@ -1,6 +1,7 @@
 package mailshamail.ru;
 
 import Form.Form;
+import Settings.Settings;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -17,22 +18,21 @@ public class MainActivity extends AppCompatActivity {
     EditText ip, port, time;
     Button next;
 
-    SharedPreferences settings;
-    private final String Prefences = "setting";
+    private Settings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        settings = new Settings(this, "setting");
+
         ip = findViewById(R.id.ip);
         port = findViewById(R.id.port);
         time = findViewById(R.id.time);
         next = findViewById(R.id.button);
 
-        settings = getSharedPreferences(Prefences, Context.MODE_PRIVATE);
-
-        if(!settings.getString("ip","").equals(""))
+        if(!settings.equal("ip", ""))
         {
             startActivity(new Intent(getBaseContext(), Form.class));
         }
@@ -41,18 +41,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (ip.getText().toString().equals("") || port.getText().toString().equals("") || time.getText().toString().equals(""))
-                { msg(); }
+                {msg();}
 
-                final SharedPreferences.Editor editor = settings.edit();
-
-                editor.putString("ip", ip.getText().toString());
-                editor.putInt("port", 20);
-                editor.putInt("time",20);
-                editor.apply();
+                settings.putValue("ip", ip.getText().toString());
+                settings.putValue("port", Integer.valueOf(String.valueOf(port.getText())));
+                settings.putValue("time", Integer.valueOf(String.valueOf(time.getText())));
 
                 startActivity(new Intent(getBaseContext(), Form.class));
             }
-
         });
     }
 

@@ -1,6 +1,7 @@
 package Form;
 
-import Connect.Connection;
+
+import Settings.Settings;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import mailshamail.ru.R;
@@ -16,16 +17,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.io.StringWriter;
+
 
 public class Form extends AppCompatActivity {
 
     private String ip;
-    final String Prefences = "setting";
-
+    //final String Prefences = "setting";
     private int port, time;
     public int ser;
     public int formID = 1;
@@ -35,16 +33,17 @@ public class Form extends AppCompatActivity {
     private EditText[] field = new EditText[8];
     public EditText serial;
 
-    SharedPreferences settings;
-    AlertDialog dialog;
-
-    Connection connection;
+    //private SharedPreferences settings;
+    private AlertDialog dialog;
+    private Settings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
         ConstraintLayout layout = findViewById(R.id.layout);
+
+        settings = new Settings(this, "setting");
 
         getParam();
 
@@ -72,7 +71,6 @@ public class Form extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {}
                 }).create();
 
-        connection = new Connection(this, getIp(), getTime());
 
         StringWriter sw = new StringWriter();
         for(int i = 0; i < 8; i++) {
@@ -109,14 +107,6 @@ public class Form extends AppCompatActivity {
                             editText.addTextChangedListener(this);
                         }
                     }
-
-                    try {
-
-                        connection.OpenConnection();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
 
                 @Override
@@ -126,6 +116,14 @@ public class Form extends AppCompatActivity {
             });
         }
 
+
+       // Thread thread = new Thread() {
+       //     public void run() {
+       //
+       //     }
+       // };
+       // thread.start();
+
         System.out.println("ip: " + ip);
         System.out.println("port " + port);
         System.out.println("time " + time);
@@ -133,10 +131,9 @@ public class Form extends AppCompatActivity {
 
     private void getParam(){
 
-        settings = getSharedPreferences(Prefences, Context.MODE_PRIVATE);
-        final String ip = settings.getString("ip", "");
-        final int port = settings.getInt("port", 20);
-        final int time = settings.getInt("time", 20);
+        String ip = settings.getStringValue("ip");
+        int port =  settings.getIntValue("port");
+        int time =  settings.getIntValue("time");
 
         this.ip = ip;
         this.port = port;
@@ -166,13 +163,13 @@ public class Form extends AppCompatActivity {
         return fieldString;
     }
 
-    public String getIp() {
-        return ip;
-    }
-    public int getPort() {
-        return port;
-    }
-    public int getTime() {
-        return time;
-    }
+   // public String getIp() {
+   //     return ip;
+   // }
+   // public int getPort() {
+   //     return port;
+   // }
+   // public int getTime() {
+   //     return time;
+   // }
 }
