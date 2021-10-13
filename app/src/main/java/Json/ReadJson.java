@@ -16,7 +16,7 @@ import mailshamail.ru.R;
 
 public class ReadJson{
 
-    public static int form;
+    public static String form;
     public static String query;
     public static String[] Field;
 
@@ -25,7 +25,7 @@ public class ReadJson{
     public static void read(Context context) throws IOException, JSONException {
         JSONObject jo = new JSONObject(readText(context, R.raw.answers));
 
-        form = jo.getInt("form");
+        form = jo.getString("form");
         query = jo.getString("query");
 
         JSONArray fields = jo.getJSONArray("fields");
